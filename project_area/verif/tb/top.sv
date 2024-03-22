@@ -47,10 +47,9 @@ initial begin
 	uvm_config_db #(virtual ahb_intf)::set(null,"*","ahb_intf",intf_h);
 	`uvm_info("TOP",$sformatf("ENTERED TOP"),UVM_MEDIUM)
 
-	run_test("test");
-//	run_test("reset_test");
-//	run_test("wr_rd_test");
-//	run_test("wr_test");
+	`uvm_info("TOP",$sformatf("Starting the test"),UVM_MEDIUM)
+
+	run_test();
 
 end
 

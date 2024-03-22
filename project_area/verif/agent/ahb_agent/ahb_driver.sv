@@ -1,3 +1,4 @@
+
 //================================= DRIVER ==========================================/
 
 class ahb_driver extends uvm_driver#(ahb_transaction);
@@ -47,7 +48,7 @@ task run_phase(uvm_phase phase);
 			//	intf_h.dri_cb.hselx  <= trans.selx;
 				intf_h.dri_cb.hselx  <= 1;
 				intf_h.dri_cb.hready <= trans.ready;
-				intf_h.dri_cb.hburst <= trans.burst;
+			//	intf_h.dri_cb.hburst <= trans.burst;
 				intf_h.dri_cb.hsize  <= trans.size;
 				intf_h.dri_cb.hwrite <= trans.write;
 				intf_h.dri_cb.htrans <= trans.trans_type;
@@ -56,25 +57,29 @@ task run_phase(uvm_phase phase);
 				intf_h.dri_cb.hwdata <= trans.wdata[i];
 				trans.resp_wdata[i] = intf_h.dri_cb.hwdata;
 				@(posedge intf_h.hclk);
-			//	intf_h.dri_cb.hselx  <= 0;
+				intf_h.dri_cb.hselx  <= 0;
 
 			end
 			else
 			begin
+			//	@(posedge intf_h.hclk);
+				
 				intf_h.dri_cb.hwrite <= trans.write;
 				intf_h.dri_cb.hready <= trans.ready;
 				//intf_h.dri_cb.hselx  <= trans.selx;
+				intf_h.dri_cb.hsize <=trans.size;
 				intf_h.dri_cb.htrans <= trans.trans_type;
 				intf_h.dri_cb.hselx  <= 1;
 				//@(posedge intf_h.hclk);
 				intf_h.dri_cb.haddr  <= trans.addr[i];
 				@(posedge intf_h.hclk);
+
 				trans.rdata[i]= intf_h.hrdata;
 				//trans.resp_rdata[i] = trans.rdata[i];				
-		//		@(posedge intf_h.hclk);
-			//	intf_h.dri_cb.hselx  <= 0;
+			@(posedge intf_h.hclk);
+			intf_h.dri_cb.hselx  <= 0;
 			end
-	@(posedge intf_h.hclk);	
+//	@(posedge intf_h.hclk);	
 			$display($time,"=================================================================== DRIVER_DISPLAY_STARTED  ========================================\n" );
 					`uvm_info("DRIVER ",$sformatf("[%0t] hselx=%0h  hwrite=%0h  hready=%0h  hburst =%0h  hsize=%0b  htrans=%0b  haddr=%0h  hwdata = %0h",$time,trans.selx, trans.write, trans.ready, trans.burst, trans.size, trans.trans_type, trans.addr[i], trans.wdata[i] ),UVM_LOW)
 					`uvm_info("DRIVER ",$sformatf("[%0t] hselx=%0h  hwrite=%0h  hready=%0h  htrans=%0b haddr=%0h  hrdata = %0h",$time,trans.selx, trans.write, trans.ready, trans.trans_type, trans.addr[i],  trans.rdata[i]),UVM_LOW)
@@ -96,4 +101,5 @@ task run_phase(uvm_phase phase);
 endtask
 	 
 endclass
+
 

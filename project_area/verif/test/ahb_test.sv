@@ -105,7 +105,7 @@ endtask
 
 
 ///***********************************************************************
-//                                    TEST CASE 2 - write read test
+//                                    TEST CASE 2 - multiple write read test
 //***********************************************************************
 
 class wr_rd_test extends test;
@@ -153,15 +153,28 @@ task wr_rd_test::run_phase(uvm_phase phase);
   phase.raise_objection(this);
   v_wr_rd_seq=virt_wr_rd_seq::type_id::create("v_wr_rd_seq");
   v_wr_rd_seq.start(env.v_seqr);
+  #100;
+  phase.drop_objection(this);
+
+   phase.raise_objection(this);
+  v_reset_seq=virt_reset_seq::type_id::create("v_reset_seq");
+  v_reset_seq.start(env.v_seqr);
   //#100;
   phase.drop_objection(this);
+
+  
+  phase.raise_objection(this);
+  v_wr_rd_seq=virt_wr_rd_seq::type_id::create("v_wr_rd_seq");
+  v_wr_rd_seq.start(env.v_seqr);
+  #100;
+  phase.drop_objection(this);
+
 
 endtask
 
 ///***********************************************************************
-//                                    TEST CASE 3 - write test
+//                                    TEST CASE 3 -  write test
 //***********************************************************************
-
 class wr_test extends test;
 
 	`uvm_component_utils(wr_test)
@@ -207,10 +220,12 @@ task wr_test::run_phase(uvm_phase phase);
   phase.raise_objection(this);
   v_wr_seq=virt_wr_seq::type_id::create("v_wr_seq");
   v_wr_seq.start(env.v_seqr);
-  #500;
+  #100;
   phase.drop_objection(this);
 
 endtask
+
+
 
 
 ///***********************************************************************
@@ -254,15 +269,178 @@ task wr_wait_test::run_phase(uvm_phase phase);
 
  phase.raise_objection(this);
   v_reset_seq=virt_reset_seq::type_id::create("v_reset_seq");
-  v_reset_seq.start(env.v_seqr);
+
+ //fork
+   v_reset_seq.start(env.v_seqr);
   //#100;
   phase.drop_objection(this);
 
   
-  phase.raise_objection(this);
-  v_wr_wait_seq=virt_wr_wait_seq::type_id::create("v_wr_wait_seq");
-  v_wr_wait_seq.start(env.v_seqr);
-  #500;
+ phase.raise_objection(this);
+   v_wr_wait_seq=virt_wr_wait_seq::type_id::create("v_wr_wait_seq");
+ 
+   v_wr_wait_seq.start(env.v_seqr);
+#200;
+  //join
+  phase.drop_objection(this);
+
+endtask
+
+///***********************************************************************
+//                                    TEST CASE 5 -increment test
+//***********************************************************************
+
+class incr_test extends test;
+
+	`uvm_component_utils(incr_test)
+
+virt_reset_seq v_reset_seq;
+virt_incr_seq v_incr_seq;
+virtual_sequencer v_sequencer;
+
+
+extern function new(string name="incr_test", uvm_component parent);
+extern function void build_phase(uvm_phase phase);
+extern task run_phase(uvm_phase phase);
+
+endclass  
+
+//*********** constructor****************
+
+function incr_test::new(string name="incr_test", uvm_component parent);
+  super.new(name,parent);
+endfunction	
+
+
+//************** build phase*************
+
+function void incr_test:: build_phase(uvm_phase phase);
+  super.build_phase(phase);
+endfunction 
+
+//*********** run phase****************
+
+
+task incr_test::run_phase(uvm_phase phase);
+	super.run_phase(phase);
+`uvm_info("TEST","RUN_PHASE",UVM_MEDIUM)
+
+ phase.raise_objection(this);
+  v_reset_seq=virt_reset_seq::type_id::create("v_reset_seq");
+   v_reset_seq.start(env.v_seqr);
+phase.drop_objection(this);
+
+  
+ phase.raise_objection(this);
+   v_incr_seq=virt_incr_seq::type_id::create("v_incr_seq");
+   v_incr_seq.start(env.v_seqr);
+  phase.drop_objection(this);
+
+endtask
+
+
+///***********************************************************************
+//                                    TEST CASE 6 - transfer size test
+//***********************************************************************
+
+class size_test extends test;
+
+	`uvm_component_utils(size_test)
+
+virt_reset_seq v_reset_seq;
+virt_size_seq v_size_seq;
+virtual_sequencer v_sequencer;
+
+
+extern function new(string name="size_test", uvm_component parent);
+extern function void build_phase(uvm_phase phase);
+extern task run_phase(uvm_phase phase);
+
+endclass  
+
+//*********** constructor****************
+
+function size_test::new(string name="size_test", uvm_component parent);
+  super.new(name,parent);
+endfunction	
+
+
+//************** build phase*************
+
+function void size_test:: build_phase(uvm_phase phase);
+  super.build_phase(phase);
+endfunction 
+
+//*********** run phase****************
+
+
+task size_test::run_phase(uvm_phase phase);
+	super.run_phase(phase);
+`uvm_info("TEST","RUN_PHASE",UVM_MEDIUM)
+
+ phase.raise_objection(this);
+  v_reset_seq=virt_reset_seq::type_id::create("v_reset_seq");
+   v_reset_seq.start(env.v_seqr);
+phase.drop_objection(this);
+
+  
+ phase.raise_objection(this);
+   v_size_seq=virt_size_seq::type_id::create("v_size_seq");
+   v_size_seq.start(env.v_seqr);
+  phase.drop_objection(this);
+
+endtask
+
+
+///***********************************************************************
+//                                    TEST CASE 7 - transfer type test
+//***********************************************************************
+
+class type_test extends test;
+
+	`uvm_component_utils(type_test)
+
+virt_reset_seq v_reset_seq;
+virt_type_seq v_type_seq;
+virtual_sequencer v_sequencer;
+
+
+extern function new(string name="type_test", uvm_component parent);
+extern function void build_phase(uvm_phase phase);
+extern task run_phase(uvm_phase phase);
+
+endclass  
+
+//*********** constructor****************
+
+function type_test::new(string name="type_test", uvm_component parent);
+  super.new(name,parent);
+endfunction	
+
+
+//************** build phase*************
+
+function void type_test:: build_phase(uvm_phase phase);
+  super.build_phase(phase);
+endfunction 
+
+//*********** run phase****************
+
+
+task type_test::run_phase(uvm_phase phase);
+	super.run_phase(phase);
+`uvm_info("TEST","RUN_PHASE",UVM_MEDIUM)
+
+ phase.raise_objection(this);
+  v_reset_seq=virt_reset_seq::type_id::create("v_reset_seq");
+   v_reset_seq.start(env.v_seqr);
+phase.drop_objection(this);
+
+  
+ phase.raise_objection(this);
+   v_type_seq=virt_type_seq::type_id::create("v_type_seq");
+   v_type_seq.start(env.v_seqr);
+   #50;
   phase.drop_objection(this);
 
 endtask

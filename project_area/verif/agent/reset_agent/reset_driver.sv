@@ -45,7 +45,6 @@ task run_phase(uvm_phase phase);
 		intf_h.hselx  <= 0;
 		intf_h.hwdata <=0;
 		intf_h.hready <=0;
-		intf_h.hburst <=0;
 		intf_h.hsize  <=0;
 		intf_h.hwrite <=0;
 		intf_h.htrans <=0;

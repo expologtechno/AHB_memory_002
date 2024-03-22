@@ -31,8 +31,9 @@ if(!uvm_config_db#(env_config)::get(null,get_full_name(),"env_config",env_cn))
   seq = ahb_sequence :: type_id::create("seq");
 
   assert($cast(v_seqr,m_sequencer))
-  else
+  else begin
     `uvm_fatal("virtual sequence","casting failed")
+    end 
   sequencer=v_seqr.sequencer;
   r_sequencer=v_seqr.r_sequencer;  
   $display(" After virtual sequence body");
@@ -72,7 +73,7 @@ endtask
 endclass
 
 //---------------------------------------------------------------------------------//
-///************************* write_read_sequence************************************************/
+///*************************multi write_read_sequence************************************************/
 //--------------------------------------------------------------------------------//
 class virt_wr_rd_seq extends virtual_sequence; 
   `uvm_object_utils(virt_wr_rd_seq)
@@ -99,7 +100,7 @@ endclass
 
 
 //---------------------------------------------------------------------------------//
-///************************* write_sequence************************************************/
+///************************* single write_sequence************************************************/
 //------------------------------------------------------------------------------------/
 class virt_wr_seq extends virtual_sequence; 
   `uvm_object_utils(virt_wr_seq)
@@ -120,7 +121,7 @@ task  body();
   $display(" wr sequence task body");	
   wr_seq=wr_sequence::type_id::create("wr_seq");
   wr_seq.start(sequencer);
-  $display("wrsequence task body");	
+  $display("wr sequence task body completed");	
 endtask  
 endclass
 
@@ -147,6 +148,84 @@ task  body();
   wr_wait_seq=wr_wait_sequence::type_id::create("wr_wait_seq");
   wr_wait_seq.start(sequencer);
   $display("wrsequence task body");	
+endtask  
+endclass
+
+//---------------------------------------------------------------------------------//
+///************************* increment_sequence************************************************/
+//------------------------------------------------------------------------------------/
+class virt_incr_seq extends virtual_sequence; 
+  `uvm_object_utils(virt_incr_seq)
+  
+  virtual_sequencer v_seqr;
+ incr_sequence incr_seq;
+
+
+
+//-************** constructor---------------------//
+function new(string name="virt_incr_seq");
+  super.new(name);
+endfunction	
+
+//-****************** body**************************-/
+task  body();
+  super.body();
+  $display(" increment sequence task body");	
+  incr_seq=incr_sequence::type_id::create("incr_seq");
+  incr_seq.start(sequencer);
+  $display("increment sequence task body");	
+endtask  
+endclass
+
+//---------------------------------------------------------------------------------//
+///************************* transfer_size_sequence************************************************/
+//------------------------------------------------------------------------------------/
+class virt_size_seq extends virtual_sequence; 
+  `uvm_object_utils(virt_size_seq)
+  
+  virtual_sequencer v_seqr;
+ size_sequence size_seq;
+
+
+
+//-************** constructor---------------------//
+function new(string name="virt_size_seq");
+  super.new(name);
+endfunction	
+
+//-****************** body**************************-/
+task  body();
+  super.body();
+  $display("size sequence task body");	
+  size_seq=size_sequence::type_id::create("size_seq");
+  size_seq.start(sequencer);
+  $display("size sequence task body");	
+endtask  
+endclass
+
+//---------------------------------------------------------------------------------//
+///************************* transfer_type_sequence************************************************/
+//------------------------------------------------------------------------------------/
+class virt_type_seq extends virtual_sequence; 
+  `uvm_object_utils(virt_type_seq)
+  
+  virtual_sequencer v_seqr;
+ type_sequence type_seq;
+
+
+
+//-************** constructor---------------------//
+function new(string name="virt_type_seq");
+  super.new(name);
+endfunction	
+
+//-****************** body**************************-/
+task  body();
+  super.body();
+  $display("type sequence task body");	
+  type_seq=type_sequence::type_id::create("type_seq");
+  type_seq.start(sequencer);
+  $display("type sequence task body");	
 endtask  
 endclass
 

@@ -11,10 +11,10 @@ interface ahb_intf(input bit hclk);
 	logic hreadyout;
 	logic hresp;
 	logic hselx;
-	logic hmastlock;
+//	logic hmastlock;
 	logic hready;
-	logic [2:0] hburst;	
-	logic [3:0] hprot;
+//	logic [2:0] hburst;	
+//	logic [3:0] hprot;
 	logic [2:0] hsize;
 	logic [1:0] htrans;
 
@@ -22,7 +22,7 @@ interface ahb_intf(input bit hclk);
 //--------DRIVER_CLOCKING_BLOCK-----------------
 	
 clocking dri_cb @(posedge hclk);
-	default input #0 output #1;
+	default input #0 output #0;
 	input hrdata;
 	input hreadyout;
 	input hresp;
@@ -33,9 +33,9 @@ clocking dri_cb @(posedge hclk);
 	output haddr;
 	output hwrite;
 	output hselx;
-	output hmastlock;
-	output hburst;
-	output hprot;
+//	output hmastlock;
+//	output hburst;
+//	output hprot;
 	output hsize;
 	output htrans;
 	
@@ -55,9 +55,9 @@ clocking mon_cb@(posedge hclk);
 	input haddr;
 	input hwrite;
 	input hselx;
-	input hmastlock;
-	input hburst;
-	input hprot;
+//	input hmastlock;
+//	input hburst;
+//	input hprot;
 	input hsize;
 	input htrans;
 endclocking

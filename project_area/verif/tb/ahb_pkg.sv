@@ -22,13 +22,15 @@ package pkg;
 
 	`include "virtual_sequence.sv"
 
-	`include"../agent/ahb_agent/ahb_scoreboard.sv"
+	`include"ahb_scoreboard.sv"
 
 	`include "../agent/reset_agent/reset_driver.sv"
 	`include "../agent/reset_agent/reset_agent.sv"
 
 	`include "ahb_env.sv"
 	`include "../../test/ahb_test.sv"
+
+//	`include "../agent/ahb_agent/ahb_coverage.sv"
 
 
 endpackage
